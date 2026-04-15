@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import {
   CameraView,
   useCameraPermissions,
@@ -7,15 +14,18 @@ import {
 } from 'expo-camera';
 import { fetchProductByBarcode } from '../services/openfood-api-client';
 
+type Phase = 'scan' | 'loading' | 'success' | 'error';
+
 export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [scanned, setScanned] = useState(false);
+  const [phase, setPhase] = useState<Phase>('scan');
   const [product, setProduct] = useState<any>(null);
+
 
   if (!permission) {
     return (
       <View style={styles.container}>
-        <Text>Requesting permission...</Text>; // ! Add Spinner as soon as ready
+        <ActivityIndicator size="large" color="#323232" />
       </View>
     );
   }
@@ -23,39 +33,79 @@ export default function App() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        // ! Add Custom Button as soon as ready
-        <Button title='Grant Camera Permission' onPress={requestPermission} />
+        <Button title="Grant Camera Permission" onPress={requestPermission} />
       </View>
     );
   }
 
   const handleScan = async (result: BarcodeScanningResult) => {
-    if (scanned) return;
+    if (phase !== 'scan') return;
 
-    setScanned(true);
+    setPhase('loading');
 
-    const barcode = result.data;
+    try {
+      const barcode = result.data;
+      const response = await fetchProductByBarcode(barcode);
 
-    const response = await fetchProductByBarcode(barcode);
+      console.log('response:', response);
 
-    console.log('response from api: ', response);
-    setProduct(response);
+      if (response) {
+        setProduct(response);
+        setPhase('success');
+      } else {
+        setProduct(null);
+        setPhase('error');
+      }
+    } catch (error) {
+      console.log('scan error:', error);
+      setProduct(null);
+      setPhase('error');
+    }
   };
+
 
   return (
     <View style={styles.container}>
-      {!scanned && (
-        <CameraView style={styles.camera} onBarcodeScanned={handleScan} />
+
+      {phase === 'scan' && (
+        <CameraView
+          style={styles.camera}
+          onBarcodeScanned={handleScan}
+        />
       )}
 
-      {scanned && (
-        <View>
-          {product ? <Text>scanned</Text> : <Text>No product found</Text>}
-          // ! Add custom Button as soon as ready
+      {phase === 'loading' && (
+        <ActivityIndicator size="large" color="#323232" />
+      )}
+
+      {phase === 'success' && product && (
+        <View style={styles.result}>
+          <Text style={styles.text}>Product found</Text>
+
           <Button
-            title='Scan again'
+            title="Scan again"
             onPress={() => {
-              setScanned(false);
+              setPhase('scan');
+              setProduct(null);
+            }}
+          />
+        </View>
+      )}
+
+      {phase === 'error' && (
+        <View style={styles.result}>
+          <Image
+            source={require('../assets/png/page_not_found.png')}
+            style={{ width: 140, height: 140 }}
+            resizeMode='contain'
+          />
+
+          <Text style={styles.errorText}>Product not found</Text>
+
+          <Button
+            title="Scan again"
+            onPress={() => {
+              setPhase('scan');
               setProduct(null);
             }}
           />
@@ -66,9 +116,25 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: {
+    flex: 1,
+    backgroundColor: '#111',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   camera: {
-    height: '100%',
     width: '100%',
+    height: '100%',
+  },
+  result: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#fff'
+  },
+  errorText: {
+    color: '#323232',
+    fontSize: 32,
   },
 });
