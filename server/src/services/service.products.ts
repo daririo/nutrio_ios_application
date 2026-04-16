@@ -35,6 +35,31 @@ export const createProduct = async (productData: {
 
 export const getProducts = async () => {
   return productRepository.find({
-    relations: ["macros", "micros", "vitamins"],
+    relations: ['macros', 'micros', 'vitamins'],
   });
+};
+
+export const deleteProductById = async (id: number) => {
+  const product = await productRepository.findOne({
+    where: { id },
+    relations: ['macros', 'micros', 'vitamins'],
+  });
+
+  if (!product) throw new Error('Product not found');
+
+  await productRepository.delete(id);
+
+  if (product.macros) {
+    await AppDataSource.getRepository(Macros).delete(product.macros.id);
+  }
+
+  if (product.micros) {
+    await AppDataSource.getRepository(Micros).delete(product.micros.id);
+  }
+
+  if (product.vitamins) {
+    await AppDataSource.getRepository(Vitamins).delete(product.vitamins.id);
+  }
+
+  return { success: true };
 };
