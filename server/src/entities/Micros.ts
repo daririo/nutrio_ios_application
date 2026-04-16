@@ -5,21 +5,21 @@ export class Micros {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column("float")
-  iron!: number;
+  @Column({ type: "float", default: 0 })
+  iron?: number;
 
-  @Column("float")
-  zinc!: number;
+  @Column({ type: "float", default: 0 })
+  zinc?: number;
 
-  @Column("float")
-  magnesium!: number;
+  @Column({ type: "float", default: 0 })
+  magnesium?: number;
 
-  @Column("float")
-  calcium!: number;
+  @Column({ type: "float", default: 0 })
+  calcium?: number;
 
-  @Column("float")
-  phosphor!: number;
+  @Column({ type: "float", default: 0 })
+  phosphor?: number;
 
-  @Column("float")
-  seelen!: number;
+  @Column({ type: "float", default: 0 })
+  seelen?: number;
 }

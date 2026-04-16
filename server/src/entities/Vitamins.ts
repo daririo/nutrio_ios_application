@@ -5,27 +5,27 @@ export class Vitamins {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   a!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   e!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   c!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   d!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   b1!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   b6!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   b12!: number;
 
-  @Column("float")
+  @Column({ type: "float", default: 0 })
   omega3!: number;
 }

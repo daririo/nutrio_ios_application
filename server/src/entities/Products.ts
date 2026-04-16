@@ -6,7 +6,7 @@ import { Vitamins } from './Vitamins';
 
 @Entity()
 export class Product {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'int'})
   id!: number;
 
   @Column()
@@ -15,15 +15,15 @@ export class Product {
   @Column()
   image_url!: string;
 
-  @OneToOne(() => Macros)
+  @OneToOne(() => Macros, { cascade: true})
   @JoinColumn({ name: 'macros_id' })
   macros!: Macros;
 
-  @OneToOne(() => Micros)
+  @OneToOne(() => Micros, { cascade: true})
   @JoinColumn({ name: 'micros_id' })
   micros!: Micros;
 
-  @OneToOne(() => Vitamins)
+  @OneToOne(() => Vitamins, { cascade: true})
   @JoinColumn({ name: 'vitamins_id' })
   vitamins!: Vitamins;
 }
