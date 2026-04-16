@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   Image,
   ActivityIndicator,
 } from 'react-native';
@@ -13,6 +12,7 @@ import {
   BarcodeScanningResult,
 } from 'expo-camera';
 import { fetchProductByBarcode } from '../services/openfood-api-client';
+import Button from '../components/button';
 
 type Phase = 'scan' | 'loading' | 'success' | 'error';
 
@@ -33,7 +33,7 @@ export default function App() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Button title="Grant Camera Permission" onPress={requestPermission} />
+        <Button label="Grant Camera Permission" onPress={requestPermission} />
       </View>
     );
   }
@@ -49,7 +49,7 @@ export default function App() {
 
       console.log('response:', response);
 
-      if (response) {
+      if (response && response.status != 0) {
         setProduct(response);
         setPhase('success');
       } else {
@@ -62,6 +62,8 @@ export default function App() {
       setPhase('error');
     }
   };
+
+  console.log(phase)
 
 
   return (
@@ -83,7 +85,7 @@ export default function App() {
           <Text style={styles.text}>Product found</Text>
 
           <Button
-            title="Scan again"
+            label="Scan again"
             onPress={() => {
               setPhase('scan');
               setProduct(null);
@@ -103,7 +105,7 @@ export default function App() {
           <Text style={styles.errorText}>Product not found</Text>
 
           <Button
-            title="Scan again"
+            label="Scan again"
             onPress={() => {
               setPhase('scan');
               setProduct(null);
