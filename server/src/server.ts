@@ -1,20 +1,26 @@
-import express, { Application, Request, Response } from "express";
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
-const app: Application = express();
-const port = 3000; // The port your express server will be running on.
+import { AppDataSource } from './data-source';
+import productRouter from './routes/router.products'
+import settingsRouter from './routes/router.settings';
 
-// Enable URL-encoded form data parsing
-app.use(express.urlencoded({ extended: true }));
+const app = express();
+const port = 3000;
 
-// Middleware to parse JSON bodies
-app.use(express.json());
+app.use(cors())
+app.use(bodyParser.json());
+app.use(productRouter)
+app.use(settingsRouter)
 
-// Basic route
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript + Express!');
-});
+AppDataSource.initialize().then(() => {
+  console.log('Database connected 🛜');
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+  app.listen(port, () => {
+    console.log(`Server is running on Port ${port} 🏎️`);
+  });
+})
+.catch((error) => {
+    console.log("Connection Failed ❌", error)
+})
