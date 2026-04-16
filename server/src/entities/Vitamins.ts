@@ -25,7 +25,4 @@ export class Vitamins {
 
   @Column({ type: "float", default: 0 })
   b12!: number;
-
-  @Column({ type: "float", default: 0 })
-  omega3!: number;
 }

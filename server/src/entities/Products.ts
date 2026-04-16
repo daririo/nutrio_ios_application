@@ -6,7 +6,7 @@ import { Vitamins } from './Vitamins';
 
 @Entity()
 export class Product {
-  @PrimaryColumn({ type: 'int'})
+  @PrimaryColumn({ type: 'bigint'})
   id!: number;
 
   @Column()
