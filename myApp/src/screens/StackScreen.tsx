@@ -8,41 +8,36 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import { Products } from '../types/Products';
-
-const DATA: Products[] = [
-  {
-    id: 1,
-    name: 'Kevin',
-    image_url:
-      'https://images.openfoodfacts.org/images/products/761/326/919/7447/front_fr.44.400.jpg',
-  },
-  {
-    id: 2,
-    name: 'Devin',
-    image_url:
-      'https://images.openfoodfacts.org/images/products/761/326/919/7447/front_fr.44.400.jpg',
-  },
-  {
-    id: 3,
-    name: 'Nevin',
-    image_url:
-      'https://images.openfoodfacts.org/images/products/761/326/919/7447/front_fr.44.400.jpg',
-  },
-  {
-    id: 3,
-    name: 'Levin',
-    image_url:
-      'https://images.openfoodfacts.org/images/products/761/326/919/7447/front_fr.44.400.jpg',
-  },
-];
+import { getProducts } from '../services/backend-client';
+import { useEffect } from 'react';
+import AppText from '../components/AppText';
+import AppTitle from '../components/AppTitle';
+import NutritionTable from '../components/NutritionTable';
 
 export default function StackScreen() {
   const [selectedItem, setSelectedItem] = useState<Products | null>(null);
+  const [products, setProducts] = useState<Products[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.log('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={DATA}
+        data={products}
         numColumns={2}
         keyExtractor={(item) => item.name}
         contentContainerStyle={styles.list}
@@ -58,15 +53,19 @@ export default function StackScreen() {
       {selectedItem && (
         <Pressable style={styles.overlay} onPress={() => setSelectedItem(null)}>
           <View style={styles.popup}>
-            // ! Add popup content later on
-            <Text>{selectedItem.name}</Text>
+            <AppTitle>{selectedItem.name}</AppTitle>
+            <AppText>Macros</AppText>
+            <NutritionTable
+              macros={selectedItem.macros}
+              micros={selectedItem?.micros}
+              vitamins={selectedItem?.vitamins}
+            />
           </View>
         </Pressable>
       )}
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   card: {
-    width: 164,
+    width: 172,
     margin: 5,
     aspectRatio: 1,
     borderRadius: 10,
@@ -103,8 +102,9 @@ const styles = StyleSheet.create({
 
   popup: {
     flex: 1,
-    margin: 28,
-    width: 338,
+    margin: 34,
+    marginBottom: 174,
+    width: 340,
     padding: 20,
     borderWidth: 1,
     borderRadius: 10,

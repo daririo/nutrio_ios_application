@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import {
   CameraView,
   useCameraPermissions,
   BarcodeScanningResult,
 } from 'expo-camera';
 import { fetchProductByBarcode } from '../services/openfood-api-client';
-import Button from '../components/button';
+import Button from '../components/RegularButton';
+import { mapOpenFoodProduct } from '../mappers/product.mapper';
+import { postProducts } from '../services/backend-client';
 
 type Phase = 'scan' | 'loading' | 'success' | 'error';
 
@@ -21,11 +17,10 @@ export default function App() {
   const [phase, setPhase] = useState<Phase>('scan');
   const [product, setProduct] = useState<any>(null);
 
-
   if (!permission) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#323232" />
+        <ActivityIndicator size='large' color='#323232' />
       </View>
     );
   }
@@ -33,7 +28,7 @@ export default function App() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Button label="Grant Camera Permission" onPress={requestPermission} />
+        <Button label='Grant Camera Permission' onPress={requestPermission} />
       </View>
     );
   }
@@ -50,7 +45,8 @@ export default function App() {
       console.log('response:', response);
 
       if (response && response.status != 0) {
-        setProduct(response);
+        setProduct(mapOpenFoodProduct(response));
+        console.log(mapOpenFoodProduct(response));
         setPhase('success');
       } else {
         setProduct(null);
@@ -63,21 +59,26 @@ export default function App() {
     }
   };
 
-  console.log(phase)
+  async function addProductToStack(product: any) {
+    try {
+      const response = await postProducts(product);
+      return response;
+    } catch (error) {
+      console.log('addProductToStack error:', error);
+      throw error;
+    }
+  }
 
+  console.log(phase);
 
   return (
     <View style={styles.container}>
-
       {phase === 'scan' && (
-        <CameraView
-          style={styles.camera}
-          onBarcodeScanned={handleScan}
-        />
+        <CameraView style={styles.camera} onBarcodeScanned={handleScan} />
       )}
 
       {phase === 'loading' && (
-        <ActivityIndicator size="large" color="#323232" />
+        <ActivityIndicator size='large' color='#323232' />
       )}
 
       {phase === 'success' && product && (
@@ -85,7 +86,15 @@ export default function App() {
           <Text style={styles.text}>Product found</Text>
 
           <Button
-            label="Scan again"
+            label='Add to Stack'
+            onPress={() => {
+              addProductToStack(product);
+              setPhase('scan');
+              setProduct(null);
+            }}
+          />
+          <Button
+            label='Scan again'
             onPress={() => {
               setPhase('scan');
               setProduct(null);
@@ -105,7 +114,7 @@ export default function App() {
           <Text style={styles.errorText}>Product not found</Text>
 
           <Button
-            label="Scan again"
+            label='Scan again'
             onPress={() => {
               setPhase('scan');
               setProduct(null);
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    color: '#fff'
+    color: '#fff',
   },
   errorText: {
     color: '#323232',

@@ -1,4 +1,4 @@
-export async function fetchProductByBarcode(barcode) {
+export async function fetchProductByBarcode(barcode: string) {
   try {
     const response = await fetch(
       `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`
