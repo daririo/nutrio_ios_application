@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import AppText from './AppText';
-import { Macros, Micros, Vitamins } from '../types/Products';
+import AppText from '../ui/AppText';
+import { Macros, Micros, Vitamins } from '../../types/Products';
 
 type Props = {
   macros?: Macros;

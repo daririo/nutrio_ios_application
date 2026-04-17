@@ -10,10 +10,10 @@ import {
 import { useState } from 'react';
 import { Products } from '../types/Products';
 import { deleteProduct, getProducts } from '../services/backend-client';
-import AppText from '../components/AppText';
-import AppTitle from '../components/AppTitle';
-import NutritionTable from '../components/NutritionTable';
-import RegularButton from '../components/RegularButton';
+import AppText from '../components/ui/AppText';
+import AppTitle from '../components/ui/AppTitle';
+import NutritionTable from '../components/stack/NutritionTable';
+import RegularButton from '../components/ui/RegularButton';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 

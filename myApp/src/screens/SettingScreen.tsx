@@ -8,9 +8,9 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import ToggleSwitch from '../components/ToggleSwitch';
-import ToggleButton from '../components/ToggleButton';
-import Button from '../components/RegularButton';
+import ToggleSwitch from '../components/ui/ToggleSwitch';
+import ToggleButton from '../components/ui/ToggleButton';
+import Button from '../components/ui/RegularButton';
 
 export default function SettingScreen() {
   const [form, setForm] = useState({

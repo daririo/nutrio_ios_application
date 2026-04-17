@@ -16,7 +16,7 @@ export function mapOpenFoodProduct(response: any) {
       fat: nutriments.fat_100g,
       protein: nutriments.proteins_100g,
       sugar: nutriments.sugars_100g,
-      fiber: nutriments.fiber_100g,
+      fiber: nutriments?.fiber_100g ?? 0,
     },
 
     micros:
