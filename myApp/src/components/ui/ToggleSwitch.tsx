@@ -19,7 +19,7 @@ export default function ToggleSwitch({ active, onPress }: Props) {
       duration: 160,
       useNativeDriver: false
     }).start()
-  }, [active])
+  }, [active, animation])
 
   const translateX = animation.interpolate({
     inputRange: [0, 1],

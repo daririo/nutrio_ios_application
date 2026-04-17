@@ -1,3 +1,4 @@
+import { Settings } from "../types/Settings";
 import { Products } from "../types/Products";
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
@@ -30,6 +31,42 @@ export async function deleteProduct(id: number) {
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error.message || "Failed to delete product");
+  }
+
+  return res.json();
+}
+
+export async function getSettings() {
+  const res = await fetch(`${BACKEND_URL}/settings`);
+  if (!res.ok) throw new Error("Failed to fetch settings");
+  return res.json();
+}
+
+export async function postSettings(data: Settings) {
+  const res = await fetch(`${BACKEND_URL}/settings`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to create settings");
+  }
+
+  return res.json();
+}
+
+export async function patchSettings(id: number, data: Partial<Settings>) {
+  const res = await fetch(`${BACKEND_URL}/settings/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to update settings");
   }
 
   return res.json();

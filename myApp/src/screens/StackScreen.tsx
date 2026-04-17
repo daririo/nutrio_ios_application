@@ -1,21 +1,18 @@
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   FlatList,
   Pressable,
   ActivityIndicator,
 } from 'react-native';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Products } from '../types/Products';
 import { deleteProduct, getProducts } from '../services/backend-client';
-import AppText from '../components/ui/AppText';
 import AppTitle from '../components/ui/AppTitle';
 import NutritionTable from '../components/stack/NutritionTable';
 import RegularButton from '../components/ui/RegularButton';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
 
 export default function StackScreen() {
   const [selectedItem, setSelectedItem] = useState<Products | null>(null);

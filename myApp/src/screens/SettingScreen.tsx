@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Pressable,
   Alert,
   ScrollView,
 } from 'react-native';
@@ -13,7 +12,8 @@ import ToggleButton from '../components/ui/ToggleButton';
 import Button from '../components/ui/RegularButton';
 
 export default function SettingScreen() {
-  const [form, setForm] = useState({
+  
+  const [persona, setPersona] = useState({
     goal: '',
     height: '',
     weight: '',
@@ -32,16 +32,23 @@ export default function SettingScreen() {
 
   const goalOptions = ['Lose weight', 'Maintain weight', 'Gain weight'];
   const nutrientOptions = [
-    'Protein',
-    'Vitamin C',
-    'Magnesium',
-    'Omega 3',
-    'Zinc',
+    'iron',
+    'zinc',
+    'calcium',
+    'phosphorus',
+    'selenium',
+    'a',
+    'e',
+    'c',
+    'd',
+    'b1',
+    'b6',
+    'b12'
   ];
   const genders = ['male', 'female'];
 
-  const handleChange = (key: keyof typeof form, value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
+  const handleChange = (key: keyof typeof persona, value: string) => {
+    setPersona((prev) => ({ ...prev, [key]: value }));
   };
 
   const toggleDiet = (key: keyof typeof diet) => {
@@ -55,7 +62,7 @@ export default function SettingScreen() {
   };
 
   const handleSubmit = () => {
-    Alert.alert('Form', JSON.stringify({ form, diet, nutrients }, null, 2));
+    Alert.alert('Form', JSON.stringify({ form: persona, diet, nutrients }, null, 2));
   };
 
   return (
@@ -71,7 +78,7 @@ export default function SettingScreen() {
           <ToggleButton
             key={option}
             label={option}
-            active={form.goal === option}
+            active={persona.goal === option}
             onPress={() => handleChange('goal', option)}
           />
         ))}
@@ -82,7 +89,7 @@ export default function SettingScreen() {
       <TextInput
         placeholder='Height'
         style={styles.input}
-        value={form.height}
+        value={persona.height}
         onChangeText={(text) => handleChange('height', text)}
         keyboardType='numeric'
       />
@@ -90,7 +97,7 @@ export default function SettingScreen() {
       <TextInput
         placeholder='Weight'
         style={styles.input}
-        value={form.weight}
+        value={persona.weight}
         onChangeText={(text) => handleChange('weight', text)}
         keyboardType='numeric'
       />
@@ -98,7 +105,7 @@ export default function SettingScreen() {
       <TextInput
         placeholder='Age'
         style={styles.input}
-        value={form.age}
+        value={persona.age}
         onChangeText={(text) => handleChange('age', text)}
         keyboardType='numeric'
       />
@@ -107,7 +114,7 @@ export default function SettingScreen() {
           <ToggleButton
             key={option}
             label={option}
-            active={form.goal === option}
+            active={persona.goal === option}
             onPress={() => handleChange('gender', option)}
           />
         ))}
