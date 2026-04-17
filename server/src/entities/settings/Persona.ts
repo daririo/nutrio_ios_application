@@ -5,7 +5,7 @@ export class Persona {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({default: 'male'})
   gender!: string;
 
   @Column("int")

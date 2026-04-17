@@ -45,7 +45,7 @@ export default function ScanScreen() {
 
   const { triggerScan, resetLock } = useBarcodeScan(handleScan);
 
-  const handleAdd = async () => {
+  const addProductToStack = async () => {
     if (!product) return;
     await saveProduct(product);
     resetFlow();
@@ -80,7 +80,7 @@ export default function ScanScreen() {
       {phase === 'success' && product && (
         <SuccessView
           product={product}
-          onAdd={handleAdd}
+          onAdd={addProductToStack}
           onRescan={resetFlow}
         />
       )}

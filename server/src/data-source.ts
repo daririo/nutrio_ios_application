@@ -1,10 +1,13 @@
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
 
-import { Product } from "./entities/Products";
-import { Macros } from "./entities/Macros";
-import { Micros } from "./entities/Micros";
-import { Vitamins } from "./entities/Vitamins";
+import { Product } from "./entities/products/Products";
+import { Macros } from "./entities/products/Macros";
+import { Micros } from "./entities/products/Micros";
+import { Vitamins } from "./entities/products/Vitamins";
+import { Settings } from "./entities/settings/Settings";
+import { Persona } from "./entities/settings/Persona";
+import { Nutrition } from "./entities/settings/Nutrition";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -16,5 +19,5 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: true,
 
-  entities: [Product, Macros, Micros, Vitamins],
+  entities: [Product, Macros, Micros, Vitamins, Settings, Persona, Nutrition],
 });

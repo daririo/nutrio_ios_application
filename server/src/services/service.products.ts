@@ -1,8 +1,8 @@
 import { AppDataSource } from '../data-source';
-import { Macros } from '../entities/Macros';
-import { Micros } from '../entities/Micros';
-import { Product } from '../entities/Products';
-import { Vitamins } from '../entities/Vitamins';
+import { Macros } from '../entities/products/Macros';
+import { Micros } from '../entities/products/Micros';
+import { Product } from '../entities/products/Products';
+import { Vitamins } from '../entities/products/Vitamins';
 
 const productRepository = AppDataSource.getRepository(Product);
 
