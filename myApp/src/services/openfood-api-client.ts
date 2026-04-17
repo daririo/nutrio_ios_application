@@ -5,13 +5,13 @@ export async function fetchProductByBarcode(barcode: string) {
     );
 
     if (!response.ok) {
-      throw new Error('Something went wrong');
+      console.log('Something went wrong');
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.log('Error fetching product:', error);
     return null;
   }
 }

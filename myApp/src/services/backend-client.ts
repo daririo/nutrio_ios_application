@@ -1,7 +1,4 @@
 import { Products } from "../types/Products";
-
-
-// ! dont push
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export async function getProducts() {
@@ -20,6 +17,19 @@ export async function postProducts(data: Products) {
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error.message || "Failed to create product");
+  }
+
+  return res.json();
+}
+
+export async function deleteProduct(id: number) {
+  const res = await fetch(`${BACKEND_URL}/products/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to delete product");
   }
 
   return res.json();

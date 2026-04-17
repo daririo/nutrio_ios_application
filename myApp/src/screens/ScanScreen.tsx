@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
-import {
-  CameraView,
-  useCameraPermissions,
-  BarcodeScanningResult,
-} from 'expo-camera';
+import { useCameraPermissions } from 'expo-camera';
+
+import BarcodeScanner from '../components/BarcodeScanner';
+import RegularButton from '../components/RegularButton';
+
 import { fetchProductByBarcode } from '../services/openfood-api-client';
-import Button from '../components/RegularButton';
 import { mapOpenFoodProduct } from '../mappers/product.mapper';
 import { postProducts } from '../services/backend-client';
 
@@ -16,11 +15,12 @@ export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
   const [phase, setPhase] = useState<Phase>('scan');
   const [product, setProduct] = useState<any>(null);
+  const requestIdRef = React.useRef(0);
 
   if (!permission) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size='large' color='#323232' />
+        <ActivityIndicator size='large' />
       </View>
     );
   }
@@ -28,64 +28,54 @@ export default function App() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Button label='Grant Camera Permission' onPress={requestPermission} />
+        <RegularButton
+          label='Grant Camera Permission'
+          onPress={requestPermission}
+        />
       </View>
     );
   }
 
-  const handleScan = async (result: BarcodeScanningResult) => {
-    if (phase !== 'scan') return;
-
+  const handleScan = async (barcode: string) => {
     setPhase('loading');
 
     try {
-      const barcode = result.data;
       const response = await fetchProductByBarcode(barcode);
-
-      console.log('response:', response);
 
       if (response && response.status != 0) {
         setProduct(mapOpenFoodProduct(response));
-        console.log(mapOpenFoodProduct(response));
         setPhase('success');
       } else {
         setProduct(null);
         setPhase('error');
       }
-    } catch (error) {
-      console.log('scan error:', error);
+    } catch (e) {
       setProduct(null);
       setPhase('error');
     }
   };
 
+  console.log('that is my product: ', product)
+
   async function addProductToStack(product: any) {
     try {
-      const response = await postProducts(product);
-      return response;
-    } catch (error) {
-      console.log('addProductToStack error:', error);
-      throw error;
+      await postProducts(product);
+    } catch (e) {
+      console.log(e);
     }
   }
 
-  console.log(phase);
-
   return (
     <View style={styles.container}>
-      {phase === 'scan' && (
-        <CameraView style={styles.camera} onBarcodeScanned={handleScan} />
-      )}
+      {phase === 'scan' && <BarcodeScanner onScan={handleScan} />}
 
-      {phase === 'loading' && (
-        <ActivityIndicator size='large' color='#323232' />
-      )}
+      {phase === 'loading' && <ActivityIndicator size='large' />}
 
       {phase === 'success' && product && (
         <View style={styles.result}>
           <Text style={styles.text}>Product found</Text>
 
-          <Button
+          <RegularButton
             label='Add to Stack'
             onPress={() => {
               addProductToStack(product);
@@ -93,7 +83,8 @@ export default function App() {
               setProduct(null);
             }}
           />
-          <Button
+
+          <RegularButton
             label='Scan again'
             onPress={() => {
               setPhase('scan');
@@ -113,7 +104,7 @@ export default function App() {
 
           <Text style={styles.errorText}>Product not found</Text>
 
-          <Button
+          <RegularButton
             label='Scan again'
             onPress={() => {
               setPhase('scan');
@@ -132,10 +123,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#111',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  camera: {
-    width: '100%',
-    height: '100%',
   },
   result: {
     alignItems: 'center',

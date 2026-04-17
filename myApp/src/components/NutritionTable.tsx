@@ -36,6 +36,7 @@ const NutritionTable: React.FC<Props> = ({ macros, micros, vitamins }) => {
   return (
     <View>
       <View style={styles.table}>
+        <AppText>Macros</AppText>
         {macroRows.map(([label, value]) => (
           <View key={label} style={styles.row}>
             <AppText style={styles.label}>{label}</AppText>

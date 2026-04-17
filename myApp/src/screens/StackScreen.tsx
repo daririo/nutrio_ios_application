@@ -5,61 +5,104 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
+  ActivityIndicator,
 } from 'react-native';
 import { useState } from 'react';
 import { Products } from '../types/Products';
-import { getProducts } from '../services/backend-client';
-import { useEffect } from 'react';
+import { deleteProduct, getProducts } from '../services/backend-client';
 import AppText from '../components/AppText';
 import AppTitle from '../components/AppTitle';
 import NutritionTable from '../components/NutritionTable';
+import RegularButton from '../components/RegularButton';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function StackScreen() {
   const [selectedItem, setSelectedItem] = useState<Products | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<Products | null>(null);
   const [products, setProducts] = useState<Products[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch (error) {
-        console.log('Failed to fetch products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (error) {
+      console.log('Failed to fetch products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
-    fetchData();
-  }, []);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchData();
+    setRefreshing(false);
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteProduct(id);
+
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+      setItemToDelete(null);
+    } catch (error) {
+      console.log('delete error:', error);
+    }
+  };
+  const closeDeleteMode = () => {
+    setItemToDelete(null);
+  };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={products}
-        numColumns={2}
-        keyExtractor={(item) => item.name}
-        contentContainerStyle={styles.list}
-        columnWrapperStyle={styles.row}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Pressable onPress={() => setSelectedItem(item)}>
-              <Image source={{ uri: item.image_url }} style={styles.image} />
-            </Pressable>
-          </View>
-        )}
-      />
+      {loading && <ActivityIndicator size='large' />}
+      {products && !loading && (
+        <FlatList
+          data={products}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          numColumns={2}
+          keyExtractor={(item) => item.name}
+          contentContainerStyle={styles.list}
+          columnWrapperStyle={styles.row}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Pressable
+                onLongPress={() => setItemToDelete(item)}
+                onPress={() => setSelectedItem(item)}
+              >
+                <Image source={{ uri: item.image_url }} style={styles.image} />
+              </Pressable>
+            </View>
+          )}
+        />
+      )}
       {selectedItem && (
         <Pressable style={styles.overlay} onPress={() => setSelectedItem(null)}>
           <View style={styles.popup}>
             <AppTitle>{selectedItem.name}</AppTitle>
-            <AppText>Macros</AppText>
             <NutritionTable
               macros={selectedItem.macros}
               micros={selectedItem?.micros}
               vitamins={selectedItem?.vitamins}
             />
+          </View>
+        </Pressable>
+      )}
+      {itemToDelete && (
+        <Pressable style={styles.overlay} onPress={closeDeleteMode}>
+          <View>
+            <RegularButton
+              label='delete'
+              onPress={() => handleDelete(itemToDelete.id)}
+            ></RegularButton>
           </View>
         </Pressable>
       )}
