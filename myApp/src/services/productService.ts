@@ -1,6 +1,6 @@
-import { fetchProductByBarcode } from './openfood-api-client';
+import { fetchProductByBarcode } from '../api/openfood-api-client';
 import { mapOpenFoodProduct } from '../mappers/product.mapper';
-import { postProducts } from './backend-client';
+import { postProducts } from '../api/backend-client';
 
 export async function getProductFromBarcode(barcode: string) {
   const response = await fetchProductByBarcode(barcode);

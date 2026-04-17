@@ -16,3 +16,4 @@ export interface Nutrition {
     name: string,
     is_selected: boolean
 }
+

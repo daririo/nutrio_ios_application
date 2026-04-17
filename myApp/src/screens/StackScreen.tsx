@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useState, useCallback } from 'react';
 import { Products } from '../types/Products';
-import { deleteProduct, getProducts } from '../services/backend-client';
+import { deleteProduct, getProducts } from '../api/backend-client';
 import AppTitle from '../components/ui/AppTitle';
 import NutritionTable from '../components/stack/NutritionTable';
 import RegularButton from '../components/ui/RegularButton';
