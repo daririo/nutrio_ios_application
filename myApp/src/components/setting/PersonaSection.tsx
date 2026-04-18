@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
   genderContainer: {
     flexDirection: 'row',
     gap: 10,
+    paddingTop: 10,
   },
 });

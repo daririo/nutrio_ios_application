@@ -1,35 +1,32 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
-
-import Button from '../components/ui/RegularButton';
+import { View, StyleSheet, Animated, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSettings } from '../hooks/useSettings';
 
 import GoalSection from '../components/setting/GoalSection';
 import PersonaSection from '../components/setting/PersonaSection';
 import DietSection from '../components/setting/DietSection';
 import NutritionSection from '../components/setting/NutritionSection';
+import RegularButton from '../components/ui/RegularButton';
 import AppTitle from '../components/ui/AppTitle';
-
-const { width } = Dimensions.get('window');
+import AppText from '../components/ui/AppText';
 
 export default function SettingScreen() {
   const { state, actions, submit } = useSettings();
 
-  const [index, setIndex] = React.useState(0);
+  const [step, setStep] = React.useState(0);
 
-  const titles = [
-    'Your Goal',
-    'About You',
-    'Diet Preferences',
-    'Nutrition',
+  const fadeAnim = React.useRef(new Animated.Value(1)).current;
+
+  const steps = ['goal', 'persona', 'diet', 'nutrition'];
+  const stepTitles = [
+    'What`s your Goal?',
+    'Tell us About you!',
+    'Your Diet Preferences',
+    'Your Nutritional Focus',
   ];
-
-  const handleScroll = (e: any) => {
-    const newIndex = Math.round(
-      e.nativeEvent.contentOffset.x / width
-    );
-    setIndex(newIndex);
-  };
+  const title = stepTitles[step];
+  const isLastStep = step === steps.length - 1;
 
   const handleSave = async () => {
     try {
@@ -40,36 +37,59 @@ export default function SettingScreen() {
     }
   };
 
-  return (
-    <View style={styles.container}>
+  const animateStepChange = (callback: () => void) => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 120,
+      useNativeDriver: true,
+    }).start(() => {
+      callback();
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 180,
+        useNativeDriver: true,
+      }).start();
+    });
+  };
 
-      <View style={styles.header}>
-        <AppTitle>{titles[index]}</AppTitle>
-      </View>
+  const nextStep = () => {
+    if (step < steps.length - 1) {
+      animateStepChange(() => setStep((prev) => prev + 1));
+    } else {
+      handleSave();
+    }
+  };
 
-      <ScrollView
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={handleScroll}
-      >
-        <View style={styles.page}>
+  const prevStep = () => {
+    if (step > 0) {
+      animateStepChange(() => setStep((prev) => prev - 1));
+    }
+  };
+
+  const progress = (step + 1) / steps.length;
+
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return (
           <GoalSection
             goal={state.goal}
             onChange={actions.setGoal}
             options={['Lose weight', 'Maintain weight', 'Gain weight']}
           />
-        </View>
+        );
 
-        <View style={styles.page}>
+      case 1:
+        return (
           <PersonaSection
             persona={state.persona}
             onChange={actions.setPersonaField}
             genders={['male', 'female']}
           />
-        </View>
+        );
 
-        <View style={styles.page}>
+      case 2:
+        return (
           <DietSection
             diet={state.diet}
             onToggle={actions.toggleDiet}
@@ -80,23 +100,61 @@ export default function SettingScreen() {
               { key: 'glutenFree', label: 'Gluten Free' },
             ]}
           />
-        </View>
+        );
 
-        <View style={styles.page}>
+      case 3:
+        return (
           <NutritionSection
             nutrients={state.nutrients}
             onToggle={actions.toggleNutrient}
             options={[
-              'iron','zinc','calcium','phosphorus',
-              'selenium','a','e','c','d',
-              'b1','b6','b12',
+              'iron',
+              'zinc',
+              'calcium',
+              'phosphorus',
+              'selenium',
+              'a',
+              'e',
+              'c',
+              'd',
+              'b1',
+              'b6',
+              'b12',
             ]}
           />
+        );
 
-          <Button label="Save" onPress={handleSave} />
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.top}>
+        <AppText style={{ textAlign: 'center' }}>{step + 1}/4</AppText>
+        <View style={styles.progressBar}>
+          <View
+            style={[styles.progressFill, { width: `${progress * 100}%` }]}
+          />
         </View>
-      </ScrollView>
-    </View>
+      </View>
+      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
+        <AppTitle>{title}</AppTitle>
+        {renderStep()}
+      </Animated.View>
+
+      <View style={styles.bottom}>
+        <View style={styles.buttonRow}>
+          <RegularButton label='Back' onPress={prevStep} />
+
+          <RegularButton
+            label={isLastStep ? 'Save' : 'Next'}
+            onPress={nextStep}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -105,21 +163,38 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#111',
   },
-  header: {
-    height: 100,
-    justifyContent: 'flex-end',
+
+  top: {
     paddingHorizontal: 20,
-    paddingBottom: 10,
+    paddingVertical: 0,
   },
-  title: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '600',
+
+  progressBar: {
+    height: 6,
+    backgroundColor: '#1c1c1e',
+    borderRadius: 10,
+    overflow: 'hidden',
   },
-  page: {
-    width,
+
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#323232',
+  },
+
+  content: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingVertical: 60,
+  },
+
+  bottom: {
+    padding: 10,
+  },
+
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    gap: 12,
+    paddingBottom: 100,
   },
 });
