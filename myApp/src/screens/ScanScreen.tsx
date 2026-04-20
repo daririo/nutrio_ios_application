@@ -24,8 +24,7 @@ export default function ScanScreen() {
     
       React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          setPhase('scan')
-          setProduct(null)
+          resetFlow()
         })
     
         return unsubscribe
