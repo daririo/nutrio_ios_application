@@ -11,10 +11,10 @@ import { Nutrition } from "./entities/settings/Nutrition";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "127.0.0.1",
-  port: 5432,
-  username: "postgres",
-  database: "nutrio_app",
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  database: process.env.DB_NAME,
 
   synchronize: true,
   logging: true,

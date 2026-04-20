@@ -53,7 +53,7 @@ nurtio_app
 #### 3. Add Enviroment file
 
 ```bash
-DB_HOST=localhost
+DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
