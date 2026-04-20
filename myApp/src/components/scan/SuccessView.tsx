@@ -1,20 +1,30 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import RegularButton from '../ui/RegularButton';
+import { Products } from '../../types/Products';
+import AppTitle from '../ui/AppTitle';
 
 type Props = {
-  product: any;
+  product: Products;
+  status: string;
   onAdd: () => void;
   onRescan: () => void;
 };
 
-export default function SuccessView({ product, onAdd, onRescan }: Props) {
+export default function SuccessView({ product, onAdd, onRescan, status }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Product found</Text>
+        <AppTitle>{status}</AppTitle>
+      <Image source={{ uri: product.image_url }} style={styles.image} />
 
-      <RegularButton label="Add to Stack" onPress={onAdd} />
-      <RegularButton label="Scan again" onPress={onRescan} />
+      {product && (
+        <View style={styles.bottom}>
+          <View style={styles.buttonRow}>
+            <RegularButton label='Add' onPress={onAdd} disabled={status === 'exist'}/>
+            <RegularButton label='Scan again' onPress={onRescan} />
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -26,5 +36,20 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     marginBottom: 10,
+  },
+  bottom: {
+    padding: 10,
+  },
+  image: {
+    width: 160,
+    height: 160,
+    borderRadius: 10,
+  },
+
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    gap: 12,
+    paddingBottom: 100,
   },
 });

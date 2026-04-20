@@ -1,4 +1,6 @@
-export function mapOpenFoodProduct(response: any) {
+import { Products } from "../types/Products";
+
+export function mapOpenFoodProduct(response: any): Products {
   const p = response.product ?? {};
 
   const nutriments = p.nutriments ?? {};
@@ -26,7 +28,7 @@ export function mapOpenFoodProduct(response: any) {
             zinc: estimated.zinc_100g,
             magnesium: estimated.magnesium_100g,
             calcium: estimated.calcium_100g,
-            phosphor: estimated.phosphorus_100g,
+            phosphorus: estimated.phosphorus_100g,
             selenium: estimated.selenium_100g,
           }
         : {},

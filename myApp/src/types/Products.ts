@@ -2,13 +2,13 @@ export interface Products {
   id: number
   name: string
   image_url: string
-  macros?: Macros
-  micros?: Micros
-  vitamins?: Vitamins
+  macros: Macros
+  micros: Micros
+  vitamins: Vitamins
 }
 
 export interface Macros {
-  kcal?: number
+  kcal: number
   protein?: number
   fat?: number
   sugar?: number
