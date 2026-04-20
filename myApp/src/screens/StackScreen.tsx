@@ -12,7 +12,8 @@ import { deleteProduct, getProducts } from '../api/backend-client';
 import AppTitle from '../components/ui/AppTitle';
 import NutritionTable from '../components/stack/NutritionTable';
 import RegularButton from '../components/ui/RegularButton';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React from 'react';
 
 export default function StackScreen() {
   const [selectedItem, setSelectedItem] = useState<Products | null>(null);
@@ -20,6 +21,18 @@ export default function StackScreen() {
   const [products, setProducts] = useState<Products[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  const navigation = useNavigation()
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      closeDeleteMode()
+      setSelectedItem(null);
+    })
+
+    return unsubscribe
+  }, [navigation])
+
 
   const fetchData = async () => {
     try {

@@ -10,6 +10,7 @@ import RegularButton from '../components/ui/RegularButton';
 import ScanLoader from '../components/scan/LoadingView';
 import SuccessView from '../components/scan/SuccessView';
 import ErrorView from '../components/scan/ErrorView';
+import { useNavigation } from '@react-navigation/native';
 
 type Phase = 'scan' | 'loading' | 'success' | 'error';
 
@@ -18,6 +19,17 @@ export default function ScanScreen() {
 
   const [phase, setPhase] = useState<Phase>('scan');
   const [product, setProduct] = useState<any>(null);
+
+  const navigation = useNavigation()
+    
+      React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          setPhase('scan')
+          setProduct(null)
+        })
+    
+        return unsubscribe
+      }, [navigation])
 
   const handleScan = async (barcode: string) => {
     setPhase('loading');
