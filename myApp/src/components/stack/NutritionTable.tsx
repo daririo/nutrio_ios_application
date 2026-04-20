@@ -36,7 +36,7 @@ const NutritionTable: React.FC<Props> = ({ macros, micros, vitamins }) => {
   return (
     <View>
       <View style={styles.table}>
-        <AppText>Macros</AppText>
+        <AppText style={styles.title}>Macros</AppText>
         {macroRows.map(([label, value]) => (
           <View key={label} style={styles.row}>
             <AppText style={styles.label}>{label}</AppText>
@@ -45,20 +45,25 @@ const NutritionTable: React.FC<Props> = ({ macros, micros, vitamins }) => {
         ))}
       </View>
 
-
       <View style={styles.grid}>
-        {sections.map((section) => (
-          <View key={section.title} style={styles.column}>
-            <AppText style={styles.title}>{section.title}</AppText>
+        {sections.map((section) => {
+          const rows = toRows(section.data);
 
-            {toRows(section.data).map(([name]) => (
-              <View key={name} style={styles.gridRow}>
-                <AppText style={styles.label}>{name}</AppText>
-                <AppText style={styles.icon}>✓</AppText>
-              </View>
-            ))}
-          </View>
-        ))}
+          if (rows.length === 0) return null;
+
+          return (
+            <View key={section.title} style={styles.column}>
+              <AppText style={styles.title}>{section.title}</AppText>
+
+              {rows.map(([name]) => (
+                <View key={name} style={styles.gridRow}>
+                  <AppText style={styles.label}>{name}</AppText>
+                  <AppText style={styles.icon}>✓</AppText>
+                </View>
+              ))}
+            </View>
+          );
+        })}
       </View>
     </View>
   );
@@ -92,6 +97,8 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 8,
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   gridRow: {
     flexDirection: 'row',
