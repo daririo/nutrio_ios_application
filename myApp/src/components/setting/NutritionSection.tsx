@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import ToggleButton from '../../components/ui/ToggleButton';
-import AppTitle from '../ui/AppTitle';
 
 export default function NutritionSection({
   nutrients,

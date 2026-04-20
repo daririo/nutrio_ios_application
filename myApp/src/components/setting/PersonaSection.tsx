@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import AppText from '../ui/AppText';
-import AppTitle from '../ui/AppTitle';
 import ToggleButton from '../ui/ToggleButton';
 
 export default function PersonaSection({ persona, onChange, genders }: any) {
