@@ -29,9 +29,7 @@ export function useSettings() {
 
   const [nutrients, setNutrients] = useState<string[]>([]);
 
-  // -----------------------------
   // LOAD
-  // -----------------------------
   useEffect(() => {
     const load = async () => {
       const data = await getSettings();
@@ -74,9 +72,8 @@ export function useSettings() {
     load();
   }, []);
 
-  // -----------------------------
+
   // ACTIONS
-  // -----------------------------
   const setGoalHandler = (value: string) => setGoal(value);
 
   const setPersonaField = (key: keyof typeof persona, value: string) => {
@@ -95,9 +92,7 @@ export function useSettings() {
     );
   };
 
-  // -----------------------------
   // SUBMIT
-  // -----------------------------
   const submit = async () => {
     const payload = mapToApi({
       goal,
