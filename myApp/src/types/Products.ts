@@ -9,10 +9,10 @@ export interface Products {
 
 export interface Macros {
   kcal: number;
-  protein?: number;
-  fat?: number;
-  sugar?: number;
-  fiber?: number;
+  protein: number;
+  fat: number;
+  sugar: number;
+  fiber: number;
 }
 
 export interface Micros {

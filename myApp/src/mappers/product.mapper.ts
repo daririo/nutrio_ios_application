@@ -16,9 +16,9 @@ export function mapOpenFoodProduct(response: any): Products {
 
     macros: {
       kcal: nutriments['energy-kcal_100g'],
-      fat: nutriments.fat_100g,
-      protein: nutriments.proteins_100g,
-      sugar: nutriments.sugars_100g,
+      fat: nutriments.fat_100g ?? 0,
+      protein: nutriments.proteins_100g ?? 0,
+      sugar: nutriments.sugars_100g ?? 1000,
       fiber: nutriments?.fiber_100g ?? 0,
     },
 
