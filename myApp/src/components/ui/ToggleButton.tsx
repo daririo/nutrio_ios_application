@@ -1,24 +1,21 @@
-import React from 'react'
-import { Text, Pressable, StyleSheet } from 'react-native'
+import React from 'react';
+import { Text, Pressable, StyleSheet } from 'react-native';
 
 type Props = {
-  label: string
-  active: boolean
-  onPress: () => void
-}
+  label: string;
+  active: boolean;
+  onPress: () => void;
+};
 
 export default function ToggleButton({ label, active, onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      style={[
-        styles.button,
-        active ? styles.active : styles.inactive
-      ]}
+      style={[styles.button, active ? styles.active : styles.inactive]}
     >
       <Text style={styles.text}>{label}</Text>
     </Pressable>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -32,7 +29,7 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    backgroundColor: 'rgb(29, 67, 101)',
+    backgroundColor: 'rgb(29, 67, 101, 0.8)',
   },
 
   inactive: {
@@ -43,4 +40,4 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
-})
+});

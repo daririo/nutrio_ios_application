@@ -7,14 +7,12 @@ export function checkCompability(
   product: Products,
   settings: Settings
 ): boolean {
-
   const kcalOk = calorieFits(settings.goal, product.macros.kcal);
 
   const selected = getSelectedNutrients(settings.nutrition);
   const matchCount = countMatches(product, selected);
 
   const nutrientOk = matchCount >= 4;
-
 
   return kcalOk || nutrientOk ? true : false;
 }

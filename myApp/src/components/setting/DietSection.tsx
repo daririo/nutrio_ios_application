@@ -17,9 +17,7 @@ export default function DietSection({ diet, onToggle, options }: any) {
             />
           </View>
 
-          {index !== options.length - 1 && (
-            <View style={styles.divider} />
-          )}
+          {index !== options.length - 1 && <View style={styles.divider} />}
         </View>
       ))}
     </View>

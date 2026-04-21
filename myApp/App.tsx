@@ -14,8 +14,8 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <View style={{ flex: 1, backgroundColor: '#111'}}>
-      <BottomTabs />
+      <View style={{ flex: 1, backgroundColor: '#111' }}>
+        <BottomTabs />
       </View>
     </NavigationContainer>
   );

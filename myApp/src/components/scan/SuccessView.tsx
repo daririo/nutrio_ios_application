@@ -66,11 +66,11 @@ export default function SuccessView({
       <View style={styles.bottom}>
         <View style={styles.buttonRow}>
           <RegularButton
-            label="Add"
+            label='Add'
             onPress={onAdd}
             disabled={status === 'exist' || status === 'not-compatible'}
           />
-          <RegularButton label="Scan again" onPress={onRescan} />
+          <RegularButton label='Scan again' onPress={onRescan} />
         </View>
       </View>
     </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 140
+    paddingTop: 140,
   },
 
   header: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 5,
-    marginBottom: 30
+    marginBottom: 30,
   },
 
   image: {

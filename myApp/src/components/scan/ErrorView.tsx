@@ -12,12 +12,12 @@ export default function ErrorView({ onRescan }: Props) {
       <Image
         source={require('../../assets/png/page_not_found.png')}
         style={{ width: 140, height: 140 }}
-        resizeMode="contain"
+        resizeMode='contain'
       />
 
       <Text style={styles.text}>Product not found</Text>
 
-      <RegularButton label="Scan again" onPress={onRescan} />
+      <RegularButton label='Scan again' onPress={onRescan} />
     </View>
   );
 }

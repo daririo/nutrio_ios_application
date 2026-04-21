@@ -72,7 +72,6 @@ export function useSettings() {
     load();
   }, []);
 
-
   // ACTIONS
   const setGoalHandler = (value: string) => setGoal(value);
 
@@ -86,9 +85,7 @@ export function useSettings() {
 
   const toggleNutrient = (name: string) => {
     setNutrients((prev) =>
-      prev.includes(name)
-        ? prev.filter((n) => n !== name)
-        : [...prev, name]
+      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
     );
   };
 

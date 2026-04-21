@@ -1,4 +1,4 @@
-import { Products } from "../types/Products";
+import { Products } from '../types/Products';
 
 export function mapOpenFoodProduct(response: any): Products {
   const p = response.product ?? {};
@@ -6,7 +6,8 @@ export function mapOpenFoodProduct(response: any): Products {
   const nutriments = p.nutriments ?? {};
   const estimated = p.nutriments_estimated ?? null;
 
-  if (!p.product_name_de && !p.product_name_de || !p.image_front_url) throw new Error
+  if ((!p.product_name_de && !p.product_name_de) || !p.image_front_url)
+    throw new Error();
 
   return {
     id: Number(response.code),

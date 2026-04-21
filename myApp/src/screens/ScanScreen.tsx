@@ -15,15 +15,14 @@ import { getProducts, getSettings } from '../api/backend-client';
 import { checkCompability } from '../services/productCompatibilityAlgorithm';
 import { CompatibilityStatus, ScanPhase } from '../types/constants';
 
-
-
 export default function ScanScreen() {
   const [permission, requestPermission] = useCameraPermissions();
 
   const [phase, setPhase] = useState<ScanPhase>('scan');
   const [product, setProduct] = useState<Products | null>(null);
 
-  const [isCompatible, setIsCompatible] = useState<CompatibilityStatus>('compatible')
+  const [isCompatible, setIsCompatible] =
+    useState<CompatibilityStatus>('compatible');
 
   const navigation = useNavigation();
 

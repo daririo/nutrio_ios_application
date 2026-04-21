@@ -4,7 +4,7 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 export default function ScanLoader() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size='large' />
     </View>
   );
 }
@@ -14,6 +14,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 140
+    paddingTop: 140,
   },
 });

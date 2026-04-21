@@ -12,22 +12,20 @@ import AppTitle from '../components/ui/AppTitle';
 import AppText from '../components/ui/AppText';
 import { useNavigation } from '@react-navigation/native';
 
-
-
 export default function SettingScreen() {
   const { state, actions, submit } = useSettings();
 
   const [step, setStep] = React.useState(0);
 
-  const navigation = useNavigation()
-  
-    React.useEffect(() => {
-      const unsubscribe = navigation.addListener('focus', () => {
-        setStep(0)
-      })
-  
-      return unsubscribe
-    }, [navigation])
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setStep(0);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const fadeAnim = React.useRef(new Animated.Value(1)).current;
 

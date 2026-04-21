@@ -44,7 +44,7 @@ export default function ProductGrid({
 const styles = StyleSheet.create({
   list: {
     paddingVertical: 24,
-    paddingTop: 140
+    paddingTop: 140,
   },
   row: {
     justifyContent: 'flex-start',

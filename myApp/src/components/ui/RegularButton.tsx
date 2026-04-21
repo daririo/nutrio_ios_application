@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   disabled: {
-    opacity: 0.3
-  }
+    opacity: 0.3,
+  },
 });
