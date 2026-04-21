@@ -1,14 +1,15 @@
 export async function fetchProductByBarcode(barcode: string) {
   try {
-    const response = await fetch(
+    const res = await fetch(
       `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`
     );
 
-    if (!response.ok) {
-      console.log('Something went wrong');
-    }
+    if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to fetch product from api");
+  }
 
-    const data = await response.json();
+    const data = await res.json();
     return data;
   } catch (error) {
     console.log('Error fetching product:', error);

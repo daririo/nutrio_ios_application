@@ -3,7 +3,7 @@ import {
   View,
   StyleSheet,
   Animated,
-  Alert, 
+  Alert,
   Keyboard,
   Pressable,
 } from 'react-native';

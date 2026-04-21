@@ -24,7 +24,7 @@ export default function ProductGrid({
     <FlatList
       data={products}
       numColumns={2}
-      keyExtractor={(item) => item.name}
+      keyExtractor={(item) => item.id.toString()}
       refreshing={refreshing}
       onRefresh={onRefresh}
       contentContainerStyle={styles.list}

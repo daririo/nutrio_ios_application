@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Settings, View } from 'react-native';
 import { useCameraPermissions } from 'expo-camera';
 
 import { useBarcodeScan } from '../hooks/useBarcodeScan';
@@ -126,7 +126,7 @@ export default function ScanScreen() {
         />
       )}
 
-      {phase === 'error' && <ErrorView onRescan={resetFlow} />}
+      {phase === 'error'  && <ErrorView onRescan={resetFlow} />}
     </View>
   );
 }

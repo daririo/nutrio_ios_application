@@ -19,6 +19,7 @@ export default function PersonaSection({ persona, onChange, genders }: any) {
           <TextInput
             placeholder={field.placeholder}
             style={styles.input}
+            keyboardType='numeric'
             value={persona[field.key]}
             onChangeText={(t) => onChange(field.key, t)}
           />

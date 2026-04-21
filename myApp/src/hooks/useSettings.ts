@@ -35,8 +35,6 @@ export function useSettings() {
       const data = await getSettings();
       if (!data) return;
 
-      setSettingsId(data.id);
-
       setGoal(data.goal ?? '');
 
       setPersona({
@@ -102,7 +100,6 @@ export function useSettings() {
       await patchSettings(settingsId, payload);
     } else {
       const res = await postSettings(payload);
-      setSettingsId(res?.data?.id);
     }
   };
 

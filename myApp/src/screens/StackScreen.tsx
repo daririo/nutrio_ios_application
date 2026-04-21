@@ -8,6 +8,7 @@ import { deleteProduct, getProducts } from '../api/backend-client';
 import ProductGrid from '../components/stack/ProductGrid';
 import ProductDetailsModal from '../components/stack/ProductDetails';
 import ProductDeleteOverlay from '../components/stack/ProductDeleteOverlay';
+import { TabNav } from '../navigation/BottomTabs';
 
 export default function StackScreen() {
   const [products, setProducts] = useState<Products[]>([]);
@@ -19,7 +20,7 @@ export default function StackScreen() {
 
   const focusedItem = selectedItem ?? itemToDelete;
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<TabNav>();
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {

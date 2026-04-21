@@ -1,73 +1,41 @@
 import { Settings } from "../types/Settings";
 import { Products } from "../types/Products";
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+import { apiRequest } from "../helper/apiRequest";
 
-export async function getProducts() {
-  const res = await fetch(`${BACKEND_URL}/products`);
-  if (!res.ok) throw new Error("Failed to fetch products");
-  return res.json();
+export function getProducts() {
+  return apiRequest<Products[]>("/products");
 }
 
-export async function postProducts(data: Products) {
-  const res = await fetch(`${BACKEND_URL}/products`, {
+export function postProducts(data: Products) {
+  return apiRequest<Products>("/products", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || "Failed to create product");
-  }
-
-  return res.json();
 }
 
-export async function deleteProduct(id: number) {
-  const res = await fetch(`${BACKEND_URL}/products/${id}`, {
+export function deleteProduct(id: number) {
+  return apiRequest<void>(`/products/${id}`, {
     method: "DELETE",
   });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || "Failed to delete product");
-  }
-
-  return res.json();
 }
 
-export async function getSettings() {
-  const res = await fetch(`${BACKEND_URL}/settings`);
-  if (!res.ok) throw new Error("Failed to fetch settings");
-  return res.json();
+export function getSettings() {
+  return apiRequest<Settings>("/settings");
 }
 
-export async function postSettings(data: Settings) {
-  const res = await fetch(`${BACKEND_URL}/settings`, {
+export function postSettings(data: Settings) {
+  return apiRequest<Settings>("/settings", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || "Failed to create settings");
-  }
-
-  return res.json();
 }
 
-export async function patchSettings(id: number, data: Partial<Settings>) {
-  const res = await fetch(`${BACKEND_URL}/settings/${id}`, {
+export function patchSettings(id: number, data: Partial<Settings>) {
+  return apiRequest<Settings>(`/settings/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || "Failed to update settings");
-  }
-
-  return res.json();
 }
