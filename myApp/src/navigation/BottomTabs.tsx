@@ -5,6 +5,7 @@ import SettingScreen from '../screens/SettingScreen';
 import StackScreen from '../screens/StackScreen';
 import ScanScreen from '../screens/ScanScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,9 +15,19 @@ export default function BottomTabs() {
       screenOptions={{
         headerShown: true,
         tabBarShowLabel: false,
-
+        headerTransparent: true,
+        headerBackground: () => (
+          <BlurView intensity={20} style={{ flex: 1 }}>
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: 'rgba(169, 211, 251, 0.6)',
+              }}
+            />
+          </BlurView>
+        ),
         headerStyle: {
-          backgroundColor: '#B7D1E6',
+          backgroundColor: 'rgba(169, 211, 251, 0.6)',
           height: 120,
         },
 
@@ -29,11 +40,22 @@ export default function BottomTabs() {
         headerTitleAlign: 'center',
 
         tabBarStyle: {
-          backgroundColor: '#B7D1E6',
+          backgroundColor: 'transparent',
           borderTopWidth: 0,
           height: 70,
           position: 'absolute',
         },
+
+        tabBarBackground: () => (
+          <BlurView intensity={20} style={{ flex: 1 }}>
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: 'rgba(169, 211, 251, 0.6)',
+              }}
+            />
+          </BlurView>
+        ),
       }}
     >
       <Tab.Screen
@@ -42,16 +64,12 @@ export default function BottomTabs() {
         options={{
           title: 'My products',
           tabBarIcon: ({ focused }) => (
-            <View
-              style={[
-                styles.tabBarIconStyle,
-                {
-                  backgroundColor: focused ? '#B7D1E6' : 'transparent',
-                  transform: focused ? [{ translateY: -28 }] : [],
-                },
-              ]}
-            >
-              <Ionicons name='layers' size={36} color='#111' />
+            <View style={[styles.tabBarIconStyle]}>
+              <Ionicons
+                name='layers'
+                size={36}
+                color={focused ? 'rgb(17, 17, 17)' : 'rgba(10, 10, 10, 0.2)'}
+              />
             </View>
           ),
         }}
@@ -62,16 +80,12 @@ export default function BottomTabs() {
         options={{
           title: 'Scan product',
           tabBarIcon: ({ focused }) => (
-            <View
-              style={[
-                styles.tabBarIconStyle,
-                {
-                  backgroundColor: focused ? '#B7D1E6' : 'transparent',
-                  transform: focused ? [{ translateY: -28 }] : [],
-                },
-              ]}
-            >
-              <Ionicons name='scan' size={36} color='#111' />
+            <View style={[styles.tabBarIconStyle]}>
+              <Ionicons
+                name='scan'
+                size={36}
+                color={focused ? 'rgb(17, 17, 17)' : 'rgba(10, 10, 10, 0.2)'}
+              />
             </View>
           ),
         }}
@@ -82,16 +96,12 @@ export default function BottomTabs() {
         options={{
           title: 'My Profile',
           tabBarIcon: ({ focused }) => (
-            <View
-              style={[
-                styles.tabBarIconStyle,
-                {
-                  backgroundColor: focused ? '#B7D1E6' : 'transparent',
-                  transform: focused ? [{ translateY: -28 }] : [],
-                },
-              ]}
-            >
-              <Ionicons name='settings' size={36} color='#111' />
+            <View style={[styles.tabBarIconStyle]}>
+              <Ionicons
+                name='settings'
+                size={36}
+                color={focused ? 'rgb(17, 17, 17)' : 'rgba(10, 10, 10, 0.2)'}
+              />
             </View>
           ),
         }}

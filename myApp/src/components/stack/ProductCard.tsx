@@ -26,9 +26,9 @@ export default function ProductCard({
 
 const styles = StyleSheet.create({
   card: {
-    width: 176,
+    width: 180,
+    height: 220,
     margin: 5,
-    aspectRatio: 1,
     borderRadius: 10,
     overflow: 'hidden',
   },

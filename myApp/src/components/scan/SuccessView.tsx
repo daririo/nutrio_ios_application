@@ -22,7 +22,7 @@ export default function SuccessView({
 }: Props) {
   const statusConfig = {
     compatible: {
-      color: '#B7D1E6',
+      color: 'rgba(169, 211, 251, 0.6)',
       text: 'Perfect match 😎',
     },
     'not-compatible': {
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 20,
+    paddingTop: 140
   },
 
   header: {
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: '#B7D1E6',
+    backgroundColor: 'rgba(169, 211, 251, 0.6)',
     padding: 4,
     borderRadius: 10,
     shadowColor: '#000',

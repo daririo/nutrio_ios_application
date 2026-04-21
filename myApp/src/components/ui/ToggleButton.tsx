@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    backgroundColor: '#4379A6',
+    backgroundColor: 'rgb(29, 67, 101)',
   },
 
   inactive: {

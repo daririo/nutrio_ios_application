@@ -28,7 +28,7 @@ export default function ToggleSwitch({ active, onPress }: Props) {
 
   const backgroundColor = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#fff', '#4379A6']
+    outputRange: ['#fff', 'rgb(29, 67, 101, 0.8)']
   })
 
   return (
