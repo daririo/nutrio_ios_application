@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Animated, Alert } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Animated,
+  Alert,
+  Keyboard,
+  Pressable,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSettings } from '../hooks/useSettings';
 
@@ -142,29 +149,31 @@ export default function SettingScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.top}>
-        <AppText style={{ textAlign: 'center' }}>{step + 1}/4</AppText>
-        <View style={styles.progressBar}>
-          <View
-            style={[styles.progressFill, { width: `${progress * 100}%` }]}
-          />
+      <Pressable style={{ flex: 1 }} onPress={Keyboard.dismiss}>
+        <View style={styles.top}>
+          <AppText style={{ textAlign: 'center' }}>{step + 1}/4</AppText>
+          <View style={styles.progressBar}>
+            <View
+              style={[styles.progressFill, { width: `${progress * 100}%` }]}
+            />
+          </View>
         </View>
-      </View>
-      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        <AppTitle>{title}</AppTitle>
-        {renderStep()}
-      </Animated.View>
+        <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
+          <AppTitle>{title}</AppTitle>
+          {renderStep()}
+        </Animated.View>
 
-      <View style={styles.bottom}>
-        <View style={styles.buttonRow}>
-          <RegularButton label='Back' onPress={prevStep} />
+        <View style={styles.bottom}>
+          <View style={styles.buttonRow}>
+            <RegularButton label='Back' onPress={prevStep} />
 
-          <RegularButton
-            label={isLastStep ? 'Save' : 'Next'}
-            onPress={nextStep}
-          />
+            <RegularButton
+              label={isLastStep ? 'Save' : 'Next'}
+              onPress={nextStep}
+            />
+          </View>
         </View>
-      </View>
+      </Pressable>
     </SafeAreaView>
   );
 }
