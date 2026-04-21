@@ -12,6 +12,8 @@ import AppTitle from '../components/ui/AppTitle';
 import AppText from '../components/ui/AppText';
 import { useNavigation } from '@react-navigation/native';
 
+
+
 export default function SettingScreen() {
   const { state, actions, submit } = useSettings();
 

@@ -34,3 +34,7 @@ export interface Vitamins {
   b12?: number
   omega3?: number
 }
+
+export type MicroKey = keyof Products['micros'];
+export type VitaminKey = keyof Products['vitamins'];
+export type NutrientKey = MicroKey | VitaminKey;

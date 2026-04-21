@@ -13,7 +13,7 @@ export function checkCompability(
   const selected = getSelectedNutrients(settings.nutrition);
   const matchCount = countMatches(product, selected);
 
-  const nutrientOk = matchCount >= 2;
+  const nutrientOk = matchCount >= 4;
 
 
   return kcalOk || nutrientOk ? true : false;

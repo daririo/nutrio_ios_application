@@ -1,5 +1,7 @@
 import "reflect-metadata";
+import "dotenv/config";
 import { DataSource } from 'typeorm';
+
 
 import { Product } from "./entities/products/Products";
 import { Macros } from "./entities/products/Macros";
