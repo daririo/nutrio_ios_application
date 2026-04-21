@@ -37,7 +37,6 @@ export default function SuccessView({
 
   return (
     <View style={styles.container}>
-      {/* Status Header */}
       <View style={styles.header}>
         <View
           style={[
@@ -57,12 +56,10 @@ export default function SuccessView({
         </AppTitle>
       </View>
 
-      {/* Product Card */}
       <View style={styles.card}>
         <Image source={{ uri: product.image_url }} style={styles.image} />
       </View>
 
-      {/* Actions */}
       <View style={styles.bottom}>
         <View style={styles.buttonRow}>
           <RegularButton

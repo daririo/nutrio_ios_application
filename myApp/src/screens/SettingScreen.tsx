@@ -3,7 +3,7 @@ import {
   View,
   StyleSheet,
   Animated,
-  Alert,
+  Alert, 
   Keyboard,
   Pressable,
 } from 'react-native';
@@ -18,13 +18,14 @@ import RegularButton from '../components/ui/RegularButton';
 import AppTitle from '../components/ui/AppTitle';
 import AppText from '../components/ui/AppText';
 import { useNavigation } from '@react-navigation/native';
+import { TabNav } from '../navigation/BottomTabs';
 
 export default function SettingScreen() {
   const { state, actions, submit } = useSettings();
 
   const [step, setStep] = React.useState(0);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<TabNav>();
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -49,7 +50,7 @@ export default function SettingScreen() {
   const handleSave = async () => {
     try {
       await submit();
-      Alert.alert('Success', 'Settings saved');
+      navigation.navigate('Scan');
     } catch (e: any) {
       Alert.alert('Error', e.message);
     }

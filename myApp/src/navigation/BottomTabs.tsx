@@ -1,4 +1,4 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, StyleSheet } from 'react-native';
 
 import SettingScreen from '../screens/SettingScreen';
@@ -6,8 +6,11 @@ import StackScreen from '../screens/StackScreen';
 import ScanScreen from '../screens/ScanScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
+import { BottomTabParamList } from '../types/BottomTabs';
 
 const Tab = createBottomTabNavigator();
+export type TabNav = BottomTabNavigationProp<BottomTabParamList>;
+
 
 export default function BottomTabs() {
   return (

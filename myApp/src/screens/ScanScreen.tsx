@@ -14,6 +14,7 @@ import { Products } from '../types/Products';
 import { getProducts, getSettings } from '../api/backend-client';
 import { checkCompability } from '../services/productCompatibilityAlgorithm';
 import { CompatibilityStatus, ScanPhase } from '../types/constants';
+import { TabNav } from '../navigation/BottomTabs';
 
 export default function ScanScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -24,7 +25,7 @@ export default function ScanScreen() {
   const [isCompatible, setIsCompatible] =
     useState<CompatibilityStatus>('compatible');
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<TabNav>();
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -78,6 +79,7 @@ export default function ScanScreen() {
   const addProductToStack = async () => {
     if (!product) return;
     await saveProduct(product);
+    navigation.navigate('Stack');
     resetFlow();
   };
 
