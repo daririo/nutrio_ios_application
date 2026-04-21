@@ -16,7 +16,7 @@ export function checkCompability(
   const selected = getSelectedNutrients(settings.nutrition);
   const nutrientOk = countMatches(product, selected) >= 3;
 
-  return kcalOk && product.macros?.sugar > 5 || nutrientOk || proteinOk && product.macros?.sugar > 5 ? true : false;
+  return kcalOk && product.macros?.sugar < 5 || nutrientOk || proteinOk && product.macros?.sugar < 5 ? true : false;
 }
 
 function getUserNeeds(settings: Settings) {
