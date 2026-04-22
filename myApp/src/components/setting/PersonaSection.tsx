@@ -5,8 +5,8 @@ import ToggleButton from '../ui/ToggleButton';
 
 export default function PersonaSection({ persona, onChange, genders }: any) {
   const inputs = [
-    { key: 'height', label: 'Height', placeholder: 'Height' },
-    { key: 'weight', label: 'Weight', placeholder: 'Weight' },
+    { key: 'height', label: 'Height (cm)', placeholder: 'Height' },
+    { key: 'weight', label: 'Weight (kg)', placeholder: 'Weight' },
     { key: 'age', label: 'Age', placeholder: 'Age' },
   ] as const;
 
@@ -20,6 +20,7 @@ export default function PersonaSection({ persona, onChange, genders }: any) {
             placeholder={field.placeholder}
             style={styles.input}
             keyboardType='numeric'
+            maxLength={3}
             value={persona[field.key]}
             onChangeText={(t) => onChange(field.key, t)}
           />

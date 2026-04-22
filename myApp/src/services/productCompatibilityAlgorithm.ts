@@ -8,15 +8,26 @@ export function checkCompability(
   settings: Settings
 ): boolean {
   const needs = getUserNeeds(settings);
-  
 
-  const kcalOk = calorieFits(product.macros.kcal, needs.kcal, settings.goal);
-  const proteinOk = proteinFits(product.macros.protein, needs.protein);
+  const kcal = product.macros.kcal;
+  const protein = product.macros.protein;
+  const sugar = product.macros?.sugar ?? 0;
+  const fiber = product.macros?.fiber ?? 0;
+
+  const kcalOk = calorieFits(kcal, needs.kcal, settings.goal);
+  const proteinOk = proteinFits(protein, needs.protein);
 
   const selected = getSelectedNutrients(settings.nutrition);
-  const nutrientOk = countMatches(product, selected) >= 3;
+  const matches = countMatches(product, selected);
+  const nutrientOk = matches >= 3;
 
-  return kcalOk && product.macros?.sugar < 5 || nutrientOk || proteinOk && product.macros?.sugar < 5 ? true : false;
+  const blockA = (kcalOk && sugar < 10) || fiber > 2;
+  const blockB = nutrientOk;
+  const blockC = (proteinOk && sugar < 10) || fiber > 2;
+
+  const result = blockA || blockB || blockC;
+
+  return result;
 }
 
 function getUserNeeds(settings: Settings) {
@@ -72,10 +83,12 @@ function getSelectedNutrients(nutrition: Nutrition[]): NutrientKey[] {
 function countMatches(product: Products, selected: NutrientKey[]) {
   const all = { ...product.micros, ...product.vitamins };
   let count = 0;
+
   for (const name of selected) {
     if (all[name] !== undefined && all[name] > 0) {
       count++;
     }
   }
+
   return count;
 }
